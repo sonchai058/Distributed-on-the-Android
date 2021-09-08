@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="5dp"
+    android:orientation="vertical">
+
+    <TextView
+        android:layout_marginTop="60dp"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="Work Processing Success"
+        android:id="@+id/textView9"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:textColor="#006400"
+        android:gravity="center_horizontal"
+        android:textStyle="bold"
+        android:textSize="25dp" />
+
+    <TextView
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="Normal Processing :"
+        android:id="@+id/textView4"
+        android:padding="5dp"
+        android:textColor="#556B2F"
+        android:textStyle="bold"
+        android:layout_below="@+id/textView9"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true" />
+
+    <TextView
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="Execution time: 41 Minute 860 Milisecond"
+        android:id="@+id/textView5"
+        android:paddingLeft="5dp"
+        android:textColor="#556B2F"
+        android:textSize="15dp"
+        android:layout_below="@+id/textView4"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+
+    <TextView
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="Distibute Processing :"
+        android:id="@+id/textView6"
+        android:padding="5dp"
+        android:textColor="#556B2F"
+        android:textStyle="bold"
+        android:layout_below="@+id/textView5"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+
+    <TextView
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="Execution time: -"
+        android:id="@+id/textView7"
+        android:paddingLeft="5dp"
+        android:textColor="#556B2F"
+        android:textSize="15dp"
+        android:layout_below="@+id/textView6"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true" />
+
+    <TextView
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="Android: Worker1 (3 Process, 60%), Worker2 (2 Process, 40%)"
+        android:id="@+id/textView8"
+        android:paddingLeft="5dp"
+        android:textColor="#556B2F"
+        android:textSize="15dp"
+        android:layout_below="@+id/textView7"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+
+    <GridView
+        android:layout_marginTop="10dp"
+        android:layout_below="@+id/textView8"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/gridView"
+        android:columnWidth="100dp"
+        android:numColumns="auto_fit"
+        android:horizontalSpacing="5dp"
+        android:verticalSpacing="5dp"
+        android:layout_centerVertical="true"
+        android:stretchMode="columnWidth"
+        android:layout_centerHorizontal="true" />
+
+
+
+</RelativeLayout>

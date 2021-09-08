@@ -1,0 +1,100 @@
+﻿<html>
+    <head>
+        <meta charset="UTF-8">
+        <title></title>
+        <script src="./socket.io.js">
+        </script>
+        <script src="./jquery-3.2.0.min.js">
+        </script>
+        <script>
+			function createUUID() {
+				// http://www.ietf.org/rfc/rfc4122.txt
+				var s = [];
+				var hexDigits = "0123456789abcdef";
+				for (var i = 0; i < 36; i++) {
+					s[i] = hexDigits.substr(Math.floor(Math.random() * 0x10), 1);
+				}
+				s[14] = "4";  // bits 12-15 of the time_hi_and_version field to 0010
+				s[19] = hexDigits.substr((s[19] & 0x3) | 0x8, 1);  // bits 6-7 of the clock_seq_hi_and_reserved to 01
+				s[8] = s[13] = s[18] = s[23] = "-";
+
+				var uuid = s.join("");
+				return uuid;
+			}
+
+            $(document).ready(function() {
+                $('#chatboard').text(""); 
+                var name = prompt("Please enter your name?", ""); // รับ input ค่า name
+                wsUri = 'http://192.168.0.102:9999'; // เขียนurlติดต่อไปยัง server ในพอร์ต 
+				
+				//wsUri = 'http://localhost:9999'; // เขียนurlติดต่อไปยัง server ในพอร์ต 9999
+				
+                var socket = io.connect(wsUri); // ทำการติดต่อ
+                socket.emit('SND_CNT', {name: name.trim(), uniqueId: createUUID()}); // ส่งชื่อผ่านท่อ  Set Name Connect ไป
+				console.log( "Request to connect.." );
+				
+				socket.on('connect', function() {	
+				  console.log( "Connected.." );
+				});
+				
+                socket.on('REC_CNT', function(data) { // ถ้ามีการส่งข้อมูลผ่าน ท่อ  REC_CNT 
+				console.log(data);
+                    $('#chatboard').append(data.name.trim() +"("+data.ip+") 's connected"+ "\r\n"); // เอาค่าที่ได้มาใส่ใน textarea
+					console.log(data.numClient);
+					console.log(data.nameWorker);
+                });
+                socket.on('REC_TASK', function(data) { // ถ้ามีการส่งข้อมูลผ่าน ท่อ  REC_WORK
+                    $('#chatboard').append(data.name.trim() + "\r\n"); // เอาค่าที่ได้มาใส่ใน textarea
+                });
+                socket.on('REC_TASK_RS', function(data) { // ถ้ามีการส่งข้อมูลผ่าน ท่อ  REC_TASK_RS
+                    $('#chatboard').append(data.name.trim() + "\r\n"); // เอาค่าที่ได้มาใส่ใน textarea
+                });
+				
+				socket.on('disconnected', function(data) {
+                    $('#chatboard').append(data.name.trim() + "'s Disconnect\r\n");
+                });
+				
+				/* Set Display for test */
+                socket.on('sendMsg', function(data) {
+                    $('#chatboard').append(data.message.trim() + "\r\n");
+                });
+                $('#messagebox').keypress(function(evt) {// กรณีที่มีการกดปุ่ม
+                    if (event.which === 13) { // ถ้าเป็นปุ่ม enter ให้ส่งข้อมูลไปยัง server
+                        var message = $('#messagebox').val();
+                        $('#messagebox').val(""); // clear ค่าในช่องใส่ข้อความ
+                        socket.emit('sendMsg', {message: message});
+                    }
+                });
+                $('#button').click(function() { // มีผลเหมือนกับฟังชั่น keypress เพียงแต่เป็นการคลิ๊กปุ่ม
+                    var message = $('#messagebox').val();
+                    $('#messagebox').val("");
+                    socket.emit('sendMsg', {message: message});
+                });
+				/* End Set Display for test */
+                
+            });
+            
+        </script>
+    </head>
+    <body>
+        <div class="chat-room">
+            <table>
+                <tr>
+                    <td colspan="2">
+                        <textarea id="chatboard" readonly="readonly" rows='10' cols='50' style='resize:none;'>
+                            
+                        </textarea>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <input type='text' id='messagebox' maxlength="100" style='width:100%;'/>
+                    </td>
+                    <td>
+                        <input type='button' id="button" value='Send'/>
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </body>
+</html>
